@@ -1,0 +1,17 @@
+doctype html
+html
+    head
+      block vars
+      link(href='style.css', rel='stylesheet')
+    body
+        header
+          div(id ="navBar")
+            nav
+                a(href='/', class = "nav") Home
+                a(href='/Account', class = "nav") Account
+                a(href='/AdminOnly', class = "nav") Admin Page
+        div(id='content', class='item')
+            h1(class="title") #{obj.title}
+            h3(class="title") #{description}
+            block content
+        footer
