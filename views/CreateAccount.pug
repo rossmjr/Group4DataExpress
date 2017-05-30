@@ -3,4 +3,27 @@ extends layout
 block content
   div(id="input")
     p User Input data stuff goes here
+    form(id='createAcc', method='post', action='/create')
+        label(for='userName') Username: 
+        input(type='text', name='userName')
+        br
+        label(for='pass') Password: 
+        input(type='text', name='pass')
+        br
+        label(for='email') Email: 
+        input(type='text', name='email')
+        br
+        label(for='age') Age: 
+        input(type='text', name='age')
+        br
+        label(for='answer1') First Answer: 
+        input(type='text', name='answer1')
+        br
+        label(for='answer2') Second Answer: 
+        input(type='text', name='answer2')
+        br
+        label(for='answer3') Third Answer: 
+        input(type='text', name='answer3')
+        br
+        input(type='submit', value='Add User')
     
