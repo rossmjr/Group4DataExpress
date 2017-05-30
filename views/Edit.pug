@@ -1,0 +1,27 @@
+extends layout
+
+block content
+
+    form(id='createAcc', method='post', action='/create')
+        label(for='userName') Username: 
+        input(type='text', name='userName', value=user.userName)
+        br
+        label(for='pass') Password: 
+        input(type='text', name='pass', value=user.pass)
+        br
+        label(for='email') Email: 
+        input(type='text', name='email', value=user.email)
+        br
+        label(for='age') Age: 
+        input(type='text', name='age', value=user.age)
+        br
+        label(for='answer1') First Answer: 
+        input(type='text', name='answer1', value=user.answer1)
+        br
+        label(for='answer2') Second Answer: 
+        input(type='text', name='answer2', value=user.answer2)
+        br
+        label(for='answer3') Third Answer: 
+        input(type='text', name='answer3', value=user.answer3)
+        br
+        input(type='submit', value='Update User')
