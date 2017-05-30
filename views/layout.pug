@@ -6,11 +6,11 @@ html
     body
         header
           div(id ="navBar")
-            nav
-                a(href='/', class = "nav") Home
-                a(href='/CreateAccount', class = "nav") Create Account
-                a(href='/Account', class = "nav") Account
-                a(href='/AdminOnly', class = "nav") Admin Page
+            ul
+                each item in config.menu
+                    li(id="pages")
+                        a(href=item[1]) #{item[0]}
+
         div(id='content', class='item')
             h1(class="title") #{obj.title}
             h3(class="title") #{description}

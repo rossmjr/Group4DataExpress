@@ -1,0 +1,34 @@
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000000;
+}
+
+#pages {
+    float: left;
+    border-right: 1px solid #bbbbbb;
+}
+
+#pages:last-child {
+    border-right: none;
+    border-left: 1px solid #bbbbbb;
+    float: right;
+}
+
+#pages a {
+    display: flex;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+#pages a:hover {
+    background-color: #111;
+}
+
+li {
+    list-style-type: none;
+}
