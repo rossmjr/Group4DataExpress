@@ -2,12 +2,13 @@ extends layout
 
 block content
   div(id="accountInfo")
-    p username
-    p password
-    p first name
-    p last name
-    p email
-    p age
+    p Username: #{user.userName}
+    p password: #{user.pass}
+    p Age: #{user.age}
+    p Email: #{user.email}
+    p Answer 1: #{user.answer1}
+    p Answer 2: #{user.answer2}
+    p Answer 3: #{user.answer3}
     br
     br
-    p edit button will go here
+    a(href='/Edit/' + user.id) Edit

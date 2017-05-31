@@ -1,18 +1,35 @@
 extends layout
 
-
 block content
   div(id="userData")
-    t
-      tc username|
-      tc password|
-      tc first name|
-      tc last name|
-      tc email|
-      tc age|
-      tc answer1|
-      tc answer2|
-      tc answer3|
-      tc|
-      tc|
+    table(class='detailGrid')
+        tr
+          th Id
+          th Username
+          th pass
+          th Age
+          th Email
+          th Answer 1
+          th Answer 2
+          th Answer 3
+          th 
+          th 
+        each item in user
+            tr
+                td
+                    a(href='/Account/' + item.id) #{item.id}
+                td #{item.userName}
+                td #{item.pass}
+                td #{item.age}
+                td #{item.email}
+                td #{item.answer1}
+                td #{item.answer2}
+                td #{item.answer3}
+                td
+                    a(href='/Edit/' + item.id) Edit
+                td
+                    a(href='/AdminDelete/' + item.id) delete
+
+      
+      
         
