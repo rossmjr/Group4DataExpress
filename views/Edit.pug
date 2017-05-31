@@ -1,27 +1,60 @@
 extends layout
 
 block content
-
-    form(id='form', method='post', action='/edit/' + person.id)
-        label(for='userName') Username: 
-        input(type='text', name='userName', value=person.userName)
-        br
-        label(for='pass') Password: 
-        input(type='text', name='pass', value=person.pass)
-        br
-        label(for='email') Email: 
-        input(type='text', name='email', value=person.email)
-        br
-        label(for='age') Age: 
-        input(type='text', name='age', value=person.age)
-        br
-        label(for='answer1') First Answer: 
-        input(type='text', name='answer1', value=person.answer1)
-        br
-        label(for='answer2') Second Answer: 
-        input(type='text', name='answer2', value=person.answer2)
-        br
-        label(for='answer3') Third Answer: 
-        input(type='text', name='answer3', value=person.answer3)
-        br
-        input(type='submit', value='Update User')
+    div(id="editinput")
+        p User Input data stuff goes here
+        form(id='form', method='post', action='/CreateAccount')
+            label(for='userName') Username: 
+            input(type='text', name="userName", class="createForm", required placeholder="Enter username...", value=person.userName)
+            br
+            br
+            label(for='pass') Password: 
+            input(type='text', name='pass', class="createForm", required placeholder="Enter password...", value=person.pass)
+            br
+            br
+            label(for='type') Account Type: 
+            select(name='type')
+                option(value='User') User
+                option(value='Admin') Admin
+            br
+            br
+            label(for='email') Email: 
+            input(type='text', name='email', class="createForm", required placeholder="example@netscape.com", value=person.email)
+            br
+            br
+            label(for='age') Age: 
+            input(type='text', name='age', class="createForm", required placeholder="Enter age...", value=person.age)
+            br
+            br
+            label(for='answer1') What is your favorite pizza topping? 
+            select(name='answer1')
+                option(value='filler') Choose One
+                option(value='Pepperoni') Pepperoni
+                option(value='Mushrooms') Mushrooms
+                option(value='Anchovies') Anchovies
+                option(value='Sausage') Sausage
+                option(value='Cheese') Cheese
+            br
+            br
+            label(for='answer2') How likely are you to return to this website? 
+            select(name='answer2')  
+                option(value='filler') Choose One
+                option(value='1') 1
+                option(value='2') 2
+                option(value='3') 3
+                option(value='4') 4
+                option(value='5') 5   
+            br
+            br
+            label(for='answer3') What is your favorite sport? 
+            select(name='answer3')   
+                option(value='filler') Choose One
+                option(value='Soccer') Soccer
+                option(value='Football') Football
+                option(value='Baseball') Baseball
+                option(value='Hockey') Hockey
+                option(value='Basketball') Basketball
+            br
+            br
+            input(type='submit', value='Edit User')
+    

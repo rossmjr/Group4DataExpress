@@ -11,6 +11,7 @@ mdb.once('open', function(callback) {});
 var userSchema = mongoose.Schema({
 	userName: String,
 	pass: String,
+    type: String,
 	email: String,
 	age: String,
 	answer1: String,
@@ -76,6 +77,7 @@ exports.createUser = function(req, res) {
 	var person = new User({
 		userName: req.body.userName,
 		pass: hash,
+        type: req.body.type,
 		email: req.body.email,
 		age: req.body.age,
 		answer1: req.body.answer1,
@@ -106,6 +108,7 @@ exports.editUser = function(req, res) {
 		if (err) return console.error(err);
 		person.userName = req.body.userName;
 		person.pass = req.body.pass;
+        person.type = req.body.type;
 		person.email = req.body.email;
 		person.age = req.body.age;
 		person.answer1 = req.body.answer1;
