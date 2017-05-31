@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  div(id="login")
+    form(id='form', method='post', action='/signIn')
+        label(for='userName') Username:
+        input(type='text', name="userName", class="signIn", required placeholder="Enter username...")
+        br
+        br
+        label(for='pass') Password:
+        input(type='text', name='pass', class="signIn", required placeholder="Enter password...")
+        br
+        br
+        input(type='submit', value='Login')

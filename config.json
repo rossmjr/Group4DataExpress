@@ -3,6 +3,7 @@
     ["Home", "/"],
     ["Create Account", "/CreateAccount"],
     ["Account", "/Account"],
+    ["Login", "/Login"],
     ["Admin Page", "/AdminOnly"]
   ]
 }
