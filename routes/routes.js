@@ -1,4 +1,6 @@
-var mongoose = require('mongoose');
+
+var mongoose = require('mongoose'),
+    config = require('../config.json');
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/data');
 
@@ -21,23 +23,36 @@ var userSchema = mongoose.Schema({
 var User = mongoose.model('User_Collection', userSchema);
 
 exports.index = function (req, res) {
-    User.find(function (err, user) {
-        if(err) return console.lerror(err);
+    User.find(function (err, person) {
+        if (err) return console.error(err);
         res.render('index', {
             title: 'User List',
-            user: user
-        });
-    });
+            userList: person,
+            config: config
+        })
+    })
 };
 
-exports.create = function (req, res) {
-    res.render('create', {
-        title: 'Add User'
+exports.AdminOnly = function (req, res) {
+    User.find(function (err, person) {
+        if (err) return console.error(err);
+        res.render('AdminOnly', {
+            title: 'User List',
+            userList: person,
+            config: config
+        })
+    })
+};
+
+exports.CreateAccount = function (req, res) {
+    res.render('CreateAccount', {
+        title: 'Add User',
+        config: config
     });
 };
 
 exports.createUser = function (req, res) {
-    var user = new User ({
+    var person = new User({
         userName: req.body.userName,
         pass: req.body.pass,
         email: req.body.email,
@@ -46,55 +61,56 @@ exports.createUser = function (req, res) {
         answer2: req.body.answer2,
         answer3: req.body.answer3
     });
-    
-    user.save(function (err, user) {
+    person.save(function (err, person) {
         if (err) return console.error(err);
-    console.log(req.body.userName + ' added');
-  });
-  res.redirect('/AdminOnly');
+        console.log(req.body.userName + ' added');
+    });
+    res.redirect('/');
+};
+
+exports.edit = function (req, res) {
+    User.findById(req.params.id, function (err, person) {
+        if (err) return console.error(err);
+        res.render('edit', {
+            title: 'Edit User',
+            person: person,
+            config: config
+        });
+    });
 };
 
 exports.editUser = function (req, res) {
-    User.findById(req.params.id, function (err, user) {
+    User.findById(req.params.id, function (err, person) {
         if (err) return console.error(err);
-        user.userName = req.body.userName;
-        user.pass = req.body.pass;
-        user.email = req.body.email;
-        user.age = req.body.age;
-        user.answer1 = req.body.answer1;
-        user.answer2 = req.body.answer2;
-        user.answer3 = req.body.answer3
-        user.save(function (err, user) {
+        person.userName = req.body.userName;
+        person.pass = req.body.pass;
+        person.email = req.body.email;
+        person.age = req.body.age;
+        person.answer1 = req.body.answer1;
+        person.answer2 = req.body.answer2;
+        person.answer3 = req.body.answer3;
+        person.save(function (err, person) {
             if (err) return console.error(err);
-            console.log(req.body.name + ' updated');
+            console.log(req.body.userName + ' updated');
         });
     });
     res.redirect('/');
-}
-
-exports.details = function (req, res) {
-    User.findById(req.params.id, function (err, user) {
-        if(err) return console.error(err);
-        res.render('details', {
-            title: user.userName + "'s Details",
-            user: user
-        });
-    });
 };
 
-exports.edit = function(req, res) {
-    User.findById(req.params.id, function (err, user) {
-        if(err) return console.error(err);
-        res.render('edit', {
-            title: 'Edit User',
-            user: user
+exports.details = function (req, res) {
+    User.findById(req.params.id, function (err, person) {
+        if (err) return console.error(err);
+        res.render('details', {
+            title: person.userName + "'s Details",
+            person: person,
+            config: config
         });
     });
 };
 
 exports.delete = function (req, res) {
-  User.findByIdAndRemove(req.params.id, function (err, user) {
-    if (err) return console.error(err);
-    //res.redirect('/');
-  });
+    User.findByIdAndRemove(req.params.id, function (err, person) {
+        if (err) return console.error(err);
+        res.redirect('/');
+    });
 };

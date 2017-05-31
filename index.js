@@ -1,50 +1,29 @@
 var express = require('express'),
-	pug = require('pug'),
-	path = require('path'),
-	config = require('./config.json'),
-    bodyParser = require('body-parser'),
-    route = require('./routes/routes.js');
+    pug = require('pug'),
+    path = require('path'),
+    route = require('./routes/routes.js'),
+    session = require('express-session'),
+    bodyparser = require('body-parser');
 
 var app = express();
 
-
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/views');
-app.use(express.static(path.join(__dirname + '/public')));
 
-var urlencodedParser = bodyParser.urlencoded({
+app.use(express.static(path.join(__dirname + '/public')));
+app.use(session({secret: "cookie_key", cookie: {maxAge: 60000}, resave: true, saveUninitialized: true}));
+
+var urlencodedParser = bodyparser.urlencoded({
     extended: true
 });
 
-app.get('/', function(req, res) {
-	var obj = {
-		title: '*Home*'
-	};
-	res.render('index', {
-		obj: obj,
-		config: config
-	});
-});
-
-app.get('/:viewname', function(req, res) {
-	var obj = {
-		title: '*' + req.params.viewname + '*'
-	};
-	res.render(req.params.viewname, {
-		obj: obj,
-		config: config
-	});
-});
-
-app.get('/AdminOnly/', route.index);
-app.get('/CreateAccount', route.create);
-app.get('/Edit/:id', route.edit);
-app.get('/AdminDelete/:id', route.delete);
+app.get('/', route.index);
+app.get('/AdminOnly', route.AdminOnly);
+app.get('/CreateAccount', route.CreateAccount);
+app.get('/edit/:id', route.edit);
+app.get('/details/:id', route.details);
 app.post('/CreateAccount', urlencodedParser, route.createUser);
-app.post('/Edit/:id', urlencodedParser, route.editUser)
-app.get('/Account', route.details);
-
-
-
+app.post('/edit/:id', urlencodedParser, route.editUser);
+app.get('/delete/:id', route.delete);
 
 app.listen(3000);

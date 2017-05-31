@@ -2,26 +2,26 @@ extends layout
 
 block content
 
-    form(id='createAcc', method='post', action='/create')
+    form(id='form', method='post', action='/edit/' + person.id)
         label(for='userName') Username: 
-        input(type='text', name='userName', value=user.userName)
+        input(type='text', name='userName', value=person.userName)
         br
         label(for='pass') Password: 
-        input(type='text', name='pass', value=user.pass)
+        input(type='text', name='pass', value=person.pass)
         br
         label(for='email') Email: 
-        input(type='text', name='email', value=user.email)
+        input(type='text', name='email', value=person.email)
         br
         label(for='age') Age: 
-        input(type='text', name='age', value=user.age)
+        input(type='text', name='age', value=person.age)
         br
         label(for='answer1') First Answer: 
-        input(type='text', name='answer1', value=user.answer1)
+        input(type='text', name='answer1', value=person.answer1)
         br
         label(for='answer2') Second Answer: 
-        input(type='text', name='answer2', value=user.answer2)
+        input(type='text', name='answer2', value=person.answer2)
         br
         label(for='answer3') Third Answer: 
-        input(type='text', name='answer3', value=user.answer3)
+        input(type='text', name='answer3', value=person.answer3)
         br
         input(type='submit', value='Update User')

@@ -1,18 +1,15 @@
 doctype html
 html
     head
-      block vars
-      link(href='style.css', rel='stylesheet')
+        title=title
+        link(href='style.css', rel='stylesheet')
     body
         header
-          div(id ="navBar")
-            ul
-                each item in config.menu
-                    li(id="pages")
-                        a(href=item[1]) #{item[0]}
-
-        div(id='content', class='item')
-            h1(class="title") #{obj.title}
-            h3(class="title") #{description}
-            block content
-        footer
+            nav
+                ul
+                    each item in config.menu
+                        li(id="pages")
+                            a(href=item[1]) #{item[0]}
+        h3=title
+        block content
+    footer

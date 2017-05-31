@@ -1,35 +1,34 @@
 extends layout
 
 block content
-  div(id="userData")
     table(class='detailGrid')
         tr
-          th Id
-          th Username
-          th pass
-          th Age
-          th Email
-          th Answer 1
-          th Answer 2
-          th Answer 3
-          th 
-          th 
-        each item in user
+            th Id
+            th Username
+            th Password
+            th Email
+            th Age
+            th Answer 1
+            th Answer 2
+            th Answer 3
+            th
+            th
+        each item in userList
             tr
                 td
-                    a(href='/Account/' + item.id) #{item.id}
+                    a(href='/details/' + item.id) #{item.id}
                 td #{item.userName}
                 td #{item.pass}
-                td #{item.age}
                 td #{item.email}
+                td #{item.age}
                 td #{item.answer1}
                 td #{item.answer2}
                 td #{item.answer3}
                 td
-                    a(href='/Edit/' + item.id) Edit
+                    a(href='/edit/' + item.id) Edit
                 td
-                    a(href='/AdminDelete/' + item.id) delete
+                    a(href='/delete/' + item.id) Delete
 
-      
-      
-        
+    p
+    #menu
+        a(href='/CreateAccount') Add New User

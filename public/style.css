@@ -1,3 +1,38 @@
+html {
+    background-color: #227;
+}
+
+body {
+    font-family: verdana, arial, sans-serif;
+    font-size: 12px;
+    width: 80%;
+    padding: 20px;
+    background-color: #eeb;
+}
+
+table.detailGrid {
+    color: #337;
+    border-width: 1px;
+    border-color: #559;
+    border-collapse: collapse;
+}
+
+table.detailGrid th {
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #559;
+    background-color: #ccf;
+}
+
+table.detailGrid td {
+    border-width: 1px;
+    padding: 8px;
+    border-style: solid;
+    border-color: #559;
+    background-color: #fff;
+}
+
 ul {
     list-style-type: none;
     margin: 0;
