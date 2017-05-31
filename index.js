@@ -28,6 +28,7 @@ var urlencodedParser = bodyparser.urlencoded({
 app.get('/', route.index);
 app.get('/AdminOnly', route.AdminOnly);
 app.get('/Login', route.Login);
+app.get('/Account', route.Account);
 app.get('/CreateAccount', route.CreateAccount);
 app.get('/edit/:id', route.edit);
 app.get('/details/:id', route.details);

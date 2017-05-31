@@ -53,6 +53,17 @@ exports.Login = function(req, res) {
 	});
 };
 
+exports.Account = function(req, res) {
+	User.find(function(err, person) {
+		if (err) return console.error(err);
+		res.render('Account', {
+			title: 'Account Info',
+			userList: person,
+			config: config
+		});
+	});
+};
+
 exports.CreateAccount = function(req, res) {
 	res.render('CreateAccount', {
 		title: 'Add User',
