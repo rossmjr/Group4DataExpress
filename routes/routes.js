@@ -3,7 +3,7 @@ var mongoose = require('mongoose'),
 	bcrypt = require('bcrypt-nodejs');
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/data');
-var hash;
+var SALT_WORK_FACTOR = 10;
 var mdb = mongoose.connection;
 mdb.on('error', console.error.bind(console, 'connection error:'));
 mdb.once('open', function(callback) {});
@@ -11,7 +11,7 @@ mdb.once('open', function(callback) {});
 var userSchema = mongoose.Schema({
 	userName: String,
 	pass: String,
-    type: String,
+  	type: String,
 	email: String,
 	age: String,
 	answer1: String,
@@ -72,12 +72,12 @@ exports.CreateAccount = function(req, res) {
 	});
 };
 
+
 exports.createUser = function(req, res) {
-	bcrypt.hash(req.body.pass, null, null, function(err, hash) {});
 	var person = new User({
 		userName: req.body.userName,
-		pass: hash,
-        type: req.body.type,
+		pass: bcrypt.hashSync(req.body.pass, bcrypt.genSaltSync(SALT_WORK_FACTOR)),
+    	type: req.body.type,
 		email: req.body.email,
 		age: req.body.age,
 		answer1: req.body.answer1,
@@ -101,6 +101,10 @@ exports.edit = function(req, res) {
 			config: config
 		});
 	});
+};
+
+exports.signIn = function(req, res) {
+	
 };
 
 exports.editUser = function(req, res) {

@@ -32,7 +32,7 @@ app.get('/Account', route.Account);
 app.get('/CreateAccount', route.CreateAccount);
 app.get('/edit/:id', route.edit);
 app.get('/details/:id', route.details);
-app.post('/signIn', urlencodedParser, route.Login);
+app.post('/signIn', urlencodedParser, route.signIn);
 app.post('/CreateAccount', urlencodedParser, route.createUser);
 app.post('/edit/:id', urlencodedParser, route.editUser);
 app.get('/delete/:id', route.delete);
