@@ -25,7 +25,7 @@ exports.index = function(req, res) {
 	User.find(function(err, person) {
 		if (err) return console.error(err);
 		res.render('index', {
-			title: 'User List',
+			title: 'Results',
 			userList: person,
 			config: config
 		});

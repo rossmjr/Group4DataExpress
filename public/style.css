@@ -67,3 +67,6 @@ ul {
 li {
     list-style-type: none;
 }
+canvas {
+  background: white;
+}
