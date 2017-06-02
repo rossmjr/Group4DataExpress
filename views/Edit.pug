@@ -2,20 +2,14 @@ extends layout
 
 block content
     div(id="editinput")
-        p User Input data stuff goes here
-        form(id='form', method='post', action='/CreateAccount')
+        p edit
+        form(id='form', method='post', action='/edit/' + person.id)
             label(for='userName') Username: 
             input(type='text', name="userName", class="createForm", required placeholder="Enter username...", value=person.userName)
             br
             br
             label(for='pass') Password: 
-            input(type='text', name='pass', class="createForm", required placeholder="Enter password...", value=person.pass)
-            br
-            br
-            label(for='type') Account Type: 
-            select(name='type')
-                option(value='User') User
-                option(value='Admin') Admin
+            input(type='text', name='pass', class="createForm", required placeholder="Enter password...")
             br
             br
             label(for='email') Email: 
@@ -27,8 +21,8 @@ block content
             br
             br
             label(for='answer1') What is your favorite pizza topping? 
-            select(name='answer1')
-                option(value='filler') Choose One
+            select(name='answer1', value=person.answer1)
+                option(value='filler', disabled='disabled', selected) Choose One
                 option(value='Pepperoni') Pepperoni
                 option(value='Mushrooms') Mushrooms
                 option(value='Anchovies') Anchovies
@@ -38,7 +32,7 @@ block content
             br
             label(for='answer2') How likely are you to return to this website? 
             select(name='answer2')  
-                option(value='filler') Choose One
+                option(value='filler', disabled='disabled', selected) Choose One
                 option(value='1') 1
                 option(value='2') 2
                 option(value='3') 3
@@ -48,7 +42,7 @@ block content
             br
             label(for='answer3') What is your favorite sport? 
             select(name='answer3')   
-                option(value='filler') Choose One
+                option(value='filler', disabled='disabled', selected) Choose One
                 option(value='Soccer') Soccer
                 option(value='Football') Football
                 option(value='Baseball') Baseball

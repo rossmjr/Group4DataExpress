@@ -104,6 +104,17 @@ exports.edit = function(req, res) {
 	});
 };
 
+exports.AdminEdit = function(req, res) {
+   User.findById(req.params.id, function(err, person) {
+		if (err) return console.error(err);
+		res.render('AdminEdit', {
+			title: 'Edit User',
+			person: person,
+			config: config
+		});
+	}); 
+};
+
 exports.signIn = function(req, res) {
 	User.findOne({userName: req.body.userName}, function(err, user) {
 		console.log(user.userName);
@@ -117,7 +128,7 @@ exports.editUser = function(req, res) {
 	User.findById(req.params.id, function(err, person) {
 		if (err) return console.error(err);
 		person.userName = req.body.userName;
-		person.pass = req.body.pass;
+		person.pass = bcrypt.hashSync(req.body.pass, bcrypt.genSaltSync(SALT_WORK_FACTOR));
         person.type = req.body.type;
 		person.email = req.body.email;
 		person.age = req.body.age;
@@ -146,6 +157,6 @@ exports.details = function(req, res) {
 exports.delete = function(req, res) {
 	User.findByIdAndRemove(req.params.id, function(err, person) {
 		if (err) return console.error(err);
-		res.redirect('/');
+		res.redirect('/AdminOnly');
 	});
 };
