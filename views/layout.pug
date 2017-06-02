@@ -10,7 +10,7 @@ html
                     each item in config.menu
                         li(id="pages")
                             a(href=item[1]) #{item[0]}
-        h3=title
+        h3(id='title')=title
         block content
     footer
     script var answers1

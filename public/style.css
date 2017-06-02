@@ -1,13 +1,93 @@
 html {
-    background-color: #227;
+    background-color: #3C4957;
 }
 
 body {
     font-family: verdana, arial, sans-serif;
     font-size: 12px;
-    width: 80%;
-    padding: 20px;
-    background-color: #eeb;
+    color: white;
+/*    background-color: #eeb;*/
+    align-content: center;
+    margin: 1% 20% 0 20%;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #8B898F;
+    border-radius: 25px;
+    font-size: 17px;
+}
+
+#pages {
+    float: left;
+    border-right: 1px solid #bbbbbb;
+}
+
+#pages:last-child {
+    border-right: none;
+    border-left: 1px solid #bbbbbb;
+    float: right;
+}
+
+#pages a {
+    display: flex;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+#pages a:hover {
+    background-color: #bbc;
+}
+
+li {
+    list-style-type: none;
+}
+
+#title {
+    font-size: 30px;
+    text-align: center;
+    margin: 5% 0 5% 0;
+}
+
+#login {
+    text-align: center;
+}
+
+.signIn {
+    font-size: 15px;
+    border-radius: 25px;
+    outline: none;
+    padding: 2px 10px 2px 10px;
+}
+
+.subBut {
+    font-size: 15px;
+    margin-top: 2%;
+}
+
+#input {
+    font-size: 15px;
+    text-align: center;
+}
+
+#input label {
+    float: left;
+}
+
+.createForm {
+    width: 30%;
+    border-radius: 25px;
+    padding: 2px 10px 2px 10px;
+
+}
+
+canvas {
+  background: white;
 }
 
 table.detailGrid {
@@ -31,42 +111,4 @@ table.detailGrid td {
     border-style: solid;
     border-color: #559;
     background-color: #fff;
-}
-
-ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #000000;
-}
-
-#pages {
-    float: left;
-    border-right: 1px solid #bbbbbb;
-}
-
-#pages:last-child {
-    border-right: none;
-    border-left: 1px solid #bbbbbb;
-    float: right;
-}
-
-#pages a {
-    display: flex;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-#pages a:hover {
-    background-color: #111;
-}
-
-li {
-    list-style-type: none;
-}
-canvas {
-  background: white;
 }
