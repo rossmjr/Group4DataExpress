@@ -110,6 +110,7 @@ exports.signIn = function(req, res) {
 		var isMatch = bcrypt.compareSync(req.body.pass, user.pass);
 		console.log(isMatch);
 	});
+	res.redirect('/');
 };
 
 exports.editUser = function(req, res) {
