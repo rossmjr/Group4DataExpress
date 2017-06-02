@@ -9,14 +9,14 @@ mdb.on('error', console.error.bind(console, 'connection error:'));
 mdb.once('open', function(callback) {});
 
 var userSchema = mongoose.Schema({
-	userName: String,
-	pass: String,
+	userName: {type: String, required: true, index: {unique: true} },
+	pass: {type: String, required: true},
   	type: String,
-	email: String,
-	age: String,
-	answer1: String,
-	answer2: String,
-	answer3: String
+	email: {type: String, required: true},
+	age: {type: String, required: true},
+	answer1: {type: String, required: true},
+	answer2: {type: String, required: true},
+	answer3: {type: String, required: true}
 });
 
 var User = mongoose.model('User_Collection', userSchema);
@@ -84,6 +84,7 @@ exports.createUser = function(req, res) {
 		answer2: req.body.answer2,
 		answer3: req.body.answer3
 	});
+
 	person.save(function(err, person) {
 		if (err) return console.error(err);
 		console.log(req.body.userName + ' added');
@@ -104,7 +105,11 @@ exports.edit = function(req, res) {
 };
 
 exports.signIn = function(req, res) {
-	
+	User.findOne({userName: req.body.userName}, function(err, user) {
+		console.log(user.userName);
+		var isMatch = bcrypt.compareSync(req.body.pass, user.pass);
+		console.log(isMatch);
+	});
 };
 
 exports.editUser = function(req, res) {
