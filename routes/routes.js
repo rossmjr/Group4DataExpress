@@ -1,12 +1,64 @@
 var mongoose = require('mongoose'),
+	session = require('express-session'),
 	config = require('../config.json'),
 	bcrypt = require('bcrypt-nodejs');
+
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/data');
+
 var SALT_WORK_FACTOR = 10;
 var mdb = mongoose.connection;
+
 mdb.on('error', console.error.bind(console, 'connection error:'));
 mdb.once('open', function(callback) {});
+
+// var checkAuth = function (req, res, next) {
+//     if (req.session.person && req.session.person.isAuthenticated) {
+//         next();
+//     } else {
+//         res.redirect('/');
+//     }
+// };
+
+function authenticate(name, hash, fn) {
+	User.findOne({
+		userName: name
+	},
+	function(err, person) {
+		if(person){
+			if(err) return fn(new Error('cannot find user'));
+			bcrypt.compare(req.body.pass, hash, function(err, hash) {
+				if(err) return fn(err);
+				if(hash === person.hash) return fn(null, person);
+				fn(new Error('invalid password'));
+			});
+		} else {
+			return fn(new Error('cannot find user'));
+		}
+	})
+}
+
+function requiredAuthentication(req, res, next) {
+    if (req.session.person) {
+        next();
+    } else {
+        req.session.error = 'Access denied!';
+        res.redirect('/Login');
+    }
+}
+
+function userExist(req, res, next) {
+    User.count({
+        userName: req.body.userName
+    }, function (err, count) {
+        if (count === 0) {
+            next();
+        } else {
+            req.session.error = "User Exist";
+            res.redirect("/CreateAccount");
+        }
+    });
+}
 
 var userSchema = mongoose.Schema({
 	userName: {type: String, required: true, index: {unique: true} },
@@ -20,6 +72,8 @@ var userSchema = mongoose.Schema({
 });
 
 var User = mongoose.model('User_Collection', userSchema);
+
+var app = express();
 
 exports.index = function(req, res) {
 	User.find(function(err, person) {
@@ -57,6 +111,7 @@ exports.Login = function(req, res) {
 exports.Account = function(req, res) {
 	User.find(function(err, person) {
 		if (err) return console.error(err);
+        res.send('Profile page of '+ req.session.person.userName +'<br>'+' click to <a href="/logout">logout</a>');
 		res.render('Account', {
 			title: 'Account Info',
 			userList: person,
@@ -116,13 +171,34 @@ exports.AdminEdit = function(req, res) {
 };
 
 exports.signIn = function(req, res) {
-	User.findOne({userName: req.body.userName}, function(err, user) {
-		console.log(user.userName);
-		var isMatch = bcrypt.compareSync(req.body.pass, user.pass);
-		console.log(isMatch);
-	});
-	res.redirect('/');
+	// User.findOne({userName: req.body.userName}, function(err, person) {
+	// 	console.log(person.userName);
+	// 	var isMatch = bcrypt.compareSync(req.body.pass, person.pass);
+	// 	console.log(isMatch);
+	// });
+	// res.redirect('/');
+    authenticate(req.body.userName, req.body.pass, function (err, person) {
+        if (person) {
+
+            req.session.regenerate(function () {
+
+                req.session.person = person;
+                req.session.success = 'Authenticated as ' + person.userName + ' click to <a href="/logout">logout</a>. ' + ' You may now access <a href="/restricted">/restricted</a>.';
+                res.redirect('/');
+            });
+        } else {
+            req.session.error = 'Authentication failed, please check your ' + ' username and password.';
+            res.redirect('/Login');
+        }
+    });
 };
+
+exports.Logout = function(req, res) {
+    req.session.destroy(function () {
+        res.redirect('/');
+    })
+};
+
 
 exports.editUser = function(req, res) {
 	User.findById(req.params.id, function(err, person) {
