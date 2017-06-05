@@ -73,7 +73,7 @@ var userSchema = mongoose.Schema({
 
 var User = mongoose.model('User_Collection', userSchema);
 
-var app = express();
+//var app = express();
 
 exports.index = function(req, res) {
 	User.find(function(err, person) {
@@ -87,7 +87,7 @@ exports.index = function(req, res) {
 };
 
 exports.AdminOnly = function(req, res) {
-	User.find(function(err, person) {
+    User.find(function(err, person) {
 		if (err) return console.error(err);
 		res.render('AdminOnly', {
 			title: 'User List',

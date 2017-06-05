@@ -20,6 +20,8 @@ block content
             input(type='text', name='age', class="createForm", required placeholder="Enter age...", value=person.age)
             br
             br
+            p(id='instruction') Please select an answer for ALL questions.
+            br
             label(for='answer1') What is your favorite pizza topping? 
             select(name='answer1', value=person.answer1)
                 option(value='filler', disabled='disabled', selected) Choose One
@@ -50,5 +52,5 @@ block content
                 option(value='Basketball') Basketball
             br
             br
-            input(type='submit', value='Edit User')
+            input(type='submit', value='Edit User', class='subBut')
     
