@@ -18,7 +18,8 @@ app.use(
 		name: 'sessionId',
 		cookie: { maxAge: 60000 },
 		resave: true,
-		saveUninitialized: true
+		saveUninitialized: true,
+		ephemeral: true
 	})
 );
 
@@ -29,12 +30,13 @@ var urlencodedParser = bodyparser.urlencoded({
 app.get('/', route.index);
 app.get('/AdminOnly', route.AdminOnly);
 app.get('/Login', route.Login);
-app.get('/Account/:id', route.Account);
+app.get('/Account', route.Account);
 app.get('/CreateAccount', route.CreateAccount);
 app.get('/edit/:id', route.edit);
 app.get('/AdminEdit/:id', route.AdminEdit);
 app.get('/details/:id', route.details);
 app.post('/signIn', urlencodedParser, route.signIn);
+app.get('/Logout', urlencodedParser, route.Logout);
 app.post('/CreateAccount', urlencodedParser, route.createUser);
 app.post('/edit/:id', urlencodedParser, route.editUser);
 app.post('/AdminEdit/:id', urlencodedParser, route.editUser);

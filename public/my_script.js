@@ -1,10 +1,3 @@
-// var answers1Array = answers1.split(',');
-// var answers2Array = answers2.split(',');
-// var answers3Array = answers3.split(',');
-// console.log(answers1Array);
-// console.log(answers2Array);
-// console.log(answers3Array);
-
 var canvas1 = document.getElementById('canvas1');
 var ctx1 = canvas1.getContext('2d');
 

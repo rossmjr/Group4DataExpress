@@ -1,10 +1,7 @@
 var mongoose = require('mongoose'),
-	express = require('express'),
 	session = require('express-session'),
 	config = require('../config.json'),
 	bcrypt = require('bcrypt-nodejs');
-
-var app = express();
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/data');
@@ -27,27 +24,6 @@ var userSchema = mongoose.Schema({
 });
 
 var User = mongoose.model('User_Collection', userSchema);
-
-function authenticate(name, hash, fn) {
-    var query = User.findOne({'pass': hash});
-
-        User.findOne({
-                userName: name
-            },
-            function(err, person) {
-                if(person){
-                    if(err) return fn(new Error('cannot find user'));
-                    bcrypt.compare(hash, query, function(err, hash) {
-                        if(err) return fn(err);
-                        if(hash === person.pass) return fn(null, person);
-                        fn(new Error('invalid password'));
-                    });
-                } else {
-                    return fn(new Error('cannot find user'));
-                }
-            })
-
-}
 
 function requiredAuthentication(req, res, next) {
     if (req.session.person) {
@@ -83,14 +59,23 @@ exports.index = function(req, res) {
 };
 
 exports.AdminOnly = function(req, res) {
-    User.find(function(err, person) {
-		if (err) return console.error(err);
-		res.render('AdminOnly', {
-			title: 'User List',
-			userList: person,
-			config: config
-		});
-	});
+
+        User.find(function(err, person) {
+            // console.log(accountType);
+            if(accountType === 'Admin'){
+				if (err) return console.error(err);
+					res.render('AdminOnly', {
+						title: 'User List',
+						userList: person,
+						config: config
+				});
+        	} else {
+            	console.log('Access Denied');
+           	 res.redirect('/');
+       		 }
+        });
+
+
 };
 
 exports.Login = function(req, res) {
@@ -105,15 +90,18 @@ exports.Login = function(req, res) {
 };
 
 exports.Account = function(req, res) {
-	User.findById(req.params.id, function(err, person) {
+
+	User.findById(accountId, function(err, person){
 		if (err) return console.error(err);
 		res.render('Account', {
-			title: person.userName + "s Account Info",
-			userList: person,
+			title: accountName + "'s Account Info",
+			person: person,
 			config: config
 		});
-	});
+	})
 };
+
+
 
 exports.CreateAccount = function(req, res) {
 	res.render('CreateAccount', {
@@ -144,7 +132,7 @@ exports.createUser = function(req, res) {
 };
 
 exports.edit = function(req, res) {
-	User.findById(req.params.id, function(err, person) {
+	User.findById(accountId, function(err, person) {
 		if (err) return console.error(err);
 		res.render('edit', {
 			title: 'Edit User',
@@ -165,20 +153,49 @@ exports.AdminEdit = function(req, res) {
 	}); 
 };
 
-exports.signIn = function(req, res) {
-	// User.findOne({userName: req.body.userName}, function(err, person) {
-	// 	console.log(person.userName);
-	// 	var isMatch = bcrypt.compareSync(req.body.pass, person.pass);
-	// 	console.log(isMatch);
-	// });
-	// res.redirect('/');
-    authenticate(req.body.userName, req.body.pass, function (err, person) {
-        if (person) {
-            req.session.regenerate(function () {
-                req.session.person = person;
+var accountType,
+	accountId,
+	accountName;
 
-                res.redirect('/');
+exports.signIn = function(req, res) {
+    User.findOne({userName: req.body.userName}, function (err, person) {
+        //console.log(person.userName);
+        var isMatch = bcrypt.compareSync(req.body.pass, person.pass);
+        //console.log(isMatch);
+        if (isMatch) {
+            req.session.regenerate(function (err, user) {
+                if(err) return console.error(err);
+            	req.session.user = person;
+                req.session['userName'] = req.body.userName;
+                req.session['type'] = person.type;
+                req.session['id'] = person.id;
+                req.session['age'] = person.age;
+                req.session['email'] = person.email;
+                req.session['ans1'] = person.answer1;
+                req.session['ans2'] = person.answer2;
+                req.session['ans3'] = person.answer3;
+
+				accountId = person._id;
+                accountType = person.type;
+                accountName = person.userName;
+                console.log(accountId);
+                console.log(accountName);
+                console.log(accountType);
+                console.log(req.session.user);
+                console.log(req.session.user.type);
+
+                // console.log(req.session['userName']);
+                // console.log(req.session['type']);
+                // console.log(req.session['_id']);
+                // console.log(req.params.id);
+                // console.log(req.body.id);
+                // console.log(req.session['age']);
+                // console.log(req.session['email']);
+                // console.log(req.session['ans1']);
+                // console.log(req.session['ans2']);
+                // console.log(req.session['ans3']);
             });
+            res.redirect('/');
         } else {
             console.log('Authentication failed, please check your ' + ' username and password.');
             res.redirect('/Login');
@@ -187,11 +204,12 @@ exports.signIn = function(req, res) {
 };
 
 exports.Logout = function(req, res) {
-    req.session.destroy(function () {
-        res.redirect('/');
-    })
+    User.findOne({userName: req.body.userName}, function () {
+        req.session.destroy();
+		res.redirect('/');
+        console.log('Session Ended')
+    });
 };
-
 
 exports.editUser = function(req, res) {
 	User.findById(req.params.id, function(err, person) {
@@ -213,11 +231,11 @@ exports.editUser = function(req, res) {
 };
 
 exports.details = function(req, res) {
-	User.findById(req.params.id, function(err, person) {
+	User.findById(req.params.id, function(err, user) {
 		if (err) return console.error(err);
 		res.render('details', {
-			title: person.userName + "'s Details",
-			person: person,
+			title: user.userName + "'s Details",
+			person: user,
 			config: config
 		});
 	});
