@@ -22,17 +22,6 @@ app.use(
 	})
 );
 
-app.use(function (req, res, next) {
-    var err = req.session.error,
-        msg = req.session.success;
-    delete req.session.error;
-    delete req.session.success;
-    res.locals.message = '';
-    if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
-    if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
-    next();
-});
-
 var urlencodedParser = bodyparser.urlencoded({
 	extended: true
 });
@@ -40,7 +29,7 @@ var urlencodedParser = bodyparser.urlencoded({
 app.get('/', route.index);
 app.get('/AdminOnly', route.AdminOnly);
 app.get('/Login', route.Login);
-app.get('/Account', route.Account);
+app.get('/Account/:id', route.Account);
 app.get('/CreateAccount', route.CreateAccount);
 app.get('/edit/:id', route.edit);
 app.get('/AdminEdit/:id', route.AdminEdit);
