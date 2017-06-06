@@ -39,5 +39,6 @@ app.post('/CreateAccount', urlencodedParser, route.createUser);
 app.post('/edit/:id', urlencodedParser, route.editUser);
 app.post('/AdminEdit/:id', urlencodedParser, route.editUser);
 app.get('/delete/:id', route.delete);
+app.get('/logout', route.Logout)
 
 app.listen(3000);
